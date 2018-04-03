@@ -32,10 +32,10 @@ from setuptools import setup, find_packages
 
 setup(
     # replace "mydatabase" by the name of your database
-    name='pyannote.db.mydatabase',
+    name='pyannote.db.eastenders',
 
     # replace "MyDatabase" by the name of your database
-    description="MyDatabase plugin for pyannote-database",
+    description="Eastenders plugin for pyannote-database",
 
     # replace with your information
     author='Hervé Bredin',
@@ -47,7 +47,7 @@ setup(
 
     # replace "MyDatabase" by the new name of MyDatabase directory
     package_data={
-        'MyDatabase': [
+        'Eastenders': [
             'data/*',
         ],
     },
@@ -71,6 +71,6 @@ setup(
     # replace MyDatabase by the name of your database (using CamelCase)
     entry_points="""
         [pyannote.database.databases]
-        MyDatabase=MyDatabase:MyDatabase
+        Eastenders=Eastenders:Eastenders
     """
 )
