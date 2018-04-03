@@ -78,9 +78,9 @@ class EastendersSpeakerDiarizationProtocol(SpeakerDiarizationProtocol):
             #annotation = mdtms(uri)
             current_file = {
                 'database': 'Eastenders',
-                'uri': uri,
+                'uri': uri}
             #    'annotated': annotated,
-            #    'annotation': annotation}
+            #    'annotation': annotation
             yield current_file
 
 
