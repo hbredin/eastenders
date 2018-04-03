@@ -53,8 +53,8 @@ class EastendersSpeakerDiarizationProtocol(SpeakerDiarizationProtocol):
     def __init__(self, preprocessors={}, **kwargs):
         super(EastendersSpeakerDiarizationProtocol, self).__init__(
             preprocessors=preprocessors, **kwargs)
-        self.uem_parser_ = UEMParser()
-        self.mdtm_parser_ = MDTMParser()
+        #self.uem_parser_ = UEMParser()
+        #self.mdtm_parser_ = MDTMParser()
 
     def _subset(self, protocol, subset):
 
