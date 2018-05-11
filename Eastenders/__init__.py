@@ -69,7 +69,7 @@ class EastendersSpeakerDiarizationProtocol(SpeakerDiarizationProtocol):
         #mdtms = self.mdtm_parser_.read(path)
 
         path = op.join(data_dir, '{protocol}.{subset}.lst'.format(subset=subset, protocol=protocol))
-        with open('eastenders.all.lst') as f:
+        with open(path) as f:
             uris = f.readlines()
         uris = [x.strip() for x in uris] 
 
@@ -99,7 +99,7 @@ class TV(EastendersSpeakerDiarizationProtocol):
             yield
 
     def tst_iter(self):
-        return self._subset('eastender', 'all')
+        return self._subset('eastenders', 'all')
 
 # this is where we define each protocol for this database.
 # without this, `pyannote.database.get_protocol` won't be able to find them...
