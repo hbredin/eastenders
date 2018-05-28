@@ -3,7 +3,7 @@
 
 # The MIT License (MIT)
 #
-# Copyright (c) 2017 CNRS
+# Copyright (c) 2018 CNRS
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -31,21 +31,13 @@ import versioneer
 from setuptools import setup, find_packages
 
 setup(
-    # replace "mydatabase" by the name of your database
     name='pyannote.db.eastenders',
-
-    # replace "MyDatabase" by the name of your database
     description="Eastenders plugin for pyannote-database",
-
-    # replace with your information
     author='Hervé Bredin',
     author_email='bredin@limsi.fr',
-
     version=versioneer.get_version(),
     cmdclass=versioneer.get_cmdclass(),
     packages=find_packages(),
-
-    # replace "MyDatabase" by the new name of MyDatabase directory
     package_data={
         'Eastenders': [
             'data/*',
@@ -53,22 +45,17 @@ setup(
     },
     include_package_data=True,
     install_requires=[
-        'pyannote.database >= 0.11.2',
-        'pyannote.parser >= 0.6.5',
+        'pyannote.database >= 1.3.2',
     ],
     classifiers=[
         "Development Status :: 4 - Beta",
         "Intended Audience :: Science/Research",
         "License :: OSI Approved :: MIT License",
         "Natural Language :: English",
-        "Programming Language :: Python :: 2",
-        "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.5",
+        "Programming Language :: Python :: 3.6",
         "Topic :: Scientific/Engineering"
     ],
-
-    # replace MyDatabase by the name of your database (using CamelCase)
     entry_points="""
         [pyannote.database.databases]
         Eastenders=Eastenders:Eastenders
