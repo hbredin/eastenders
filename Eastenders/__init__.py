@@ -47,22 +47,26 @@ class Subtitles(SpeakerDiarizationProtocol):
     def _subset(self, subset):
 
         path = Path(__file__).parent / 'data' / f'subtitles.{subset}.txt.gz'
-        names = ['uri', 'start', 'stop', 'track', 'label']
+        names = ['uri', 'start', 'stop', 'track', 'label', 'subtitle']
         with gzip.open(path, 'rb') as fp:
-            data = pd.read_table(fp, delim_whitespace=True, names=names,
+            data = pd.read_table(fp, sep="|", names=names,
                                  converters={'uri': str})
 
         for uri, datum in data.groupby('uri'):
 
             annotation = Annotation(uri=uri, modality='subtitles')
+            subtitles = dict()
             for _, row in datum.iterrows():
                 segment = Segment(row.start, row.stop)
                 annotation[segment, row.track] = row.label
+                subtitles[segment, row.track] = row.subtitle
 
             current_file = {
                 'database': 'Eastenders',
                 'uri': uri,
-                'annotation': annotation}
+                'annotation': annotation,
+                'subtitles': subtitles}
+
             yield current_file
 
     def dev_iter(self):
@@ -72,14 +76,36 @@ class Subtitles(SpeakerDiarizationProtocol):
         return self._subset('tst')
 
 
-# class Shots(SpeakerDiarizationProtocol):
-#     """TRECVID protocols"""
-#
-#     def dev_iter(self):
-#         return self._subset('dev')
-#
-#     def tst_iter(self):
-#         return self._subset('tst')
+class Shots(SpeakerDiarizationProtocol):
+    """TRECVID protocols"""
+
+    def _subset(self, subset):
+
+        path = Path(__file__).parent / 'data' / f'shots.{subset}.txt.gz'
+        names = ['uri', 'start', 'stop', 'shot_id']
+        with gzip.open(path, 'rb') as fp:
+            data = pd.read_table(fp, delim_whitespace=True, names=names,
+                                 converters={'uri': str})
+
+        for uri, datum in data.groupby('uri'):
+
+            annotation = Annotation(uri=uri, modality='shots')
+            for _, row in datum.iterrows():
+                segment = Segment(row.start, row.stop)
+                annotation[segment, row.shot_id] = 'shot'
+
+            current_file = {
+                'database': 'Eastenders',
+                'uri': uri,
+                'annotation': annotation}
+
+            yield current_file
+
+    def dev_iter(self):
+        return self._subset('dev')
+
+    def tst_iter(self):
+        return self._subset('tst')
 
 
 class Eastenders(Database):
@@ -88,4 +114,4 @@ class Eastenders(Database):
     def __init__(self, preprocessors={}, **kwargs):
         super(Eastenders, self).__init__(preprocessors=preprocessors, **kwargs)
         self.register_protocol('SpeakerDiarization', 'Subtitles', Subtitles)
-        # self.register_protocol('SpeakerDiarization', 'Shots', Shots)
+        self.register_protocol('SpeakerDiarization', 'Shots', Shots)
