@@ -47,22 +47,26 @@ class Subtitles(SpeakerDiarizationProtocol):
     def _subset(self, subset):
 
         path = Path(__file__).parent / 'data' / f'subtitles.{subset}.txt.gz'
-        names = ['uri', 'start', 'stop', 'track', 'label']
+        names = ['uri', 'start', 'stop', 'track', 'label', 'subtitle']
         with gzip.open(path, 'rb') as fp:
-            data = pd.read_table(fp, delim_whitespace=True, names=names,
+            data = pd.read_table(fp, sep="|", names=names,
                                  converters={'uri': str})
 
         for uri, datum in data.groupby('uri'):
 
             annotation = Annotation(uri=uri, modality='subtitles')
+            subtitles = dict()
             for _, row in datum.iterrows():
                 segment = Segment(row.start, row.stop)
                 annotation[segment, row.track] = row.label
+                subtitles[segment, row.track] = row.subtitle
 
             current_file = {
                 'database': 'Eastenders',
                 'uri': uri,
-                'annotation': annotation}
+                'annotation': annotation,
+                'subtitles': subtitles}
+
             yield current_file
 
     def dev_iter(self):
