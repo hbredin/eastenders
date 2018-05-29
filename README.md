@@ -52,3 +52,36 @@ number of characters.
 ```
 
 ## Eastenders.SpeakerDiarization.Shots
+
+The following `pyannote.database` protocol can be used to iterate over each
+shot provided in the `eastenders.masterShotReferenceTable` file.
+
+Do not pay attention to the `SpeakerDiarization` string in the protocol name...
+
+```python
+>>> from pyannote.database import get_protocol
+>>> protocol = get_protocol('Eastenders.SpeakerDiarization.Shots')
+```
+
+### File zero
+
+```python
+>>> file_zero = next(protocol.development())
+>>> print(file_zero['uri'])
+5082189274976367100
+
+>>> shots = file_zero['annotation']
+>>> for time_range, shot_id in shots.itertracks():
+...     print(time_range.start, time_range.end, shot_id)
+...     break
+0.0 0.12 shot0_1
+```
+
+### Test set
+
+```python
+>>> for test_file in protocol.test():
+...     print(test_file['uri'])
+...     shots = test_file['annotation']
+...     # do something smart
+```
