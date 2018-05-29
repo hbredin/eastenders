@@ -3,7 +3,8 @@
 ## Installation
 
 ```bash
-$ pip install pyannote.db.eastenders
+$ git clone git@github.com:hbredin/eastenders.git
+$ pip install -e eastenders
 ```
 
 ## Eastenders.SpeakerDiarization.Subtitles
